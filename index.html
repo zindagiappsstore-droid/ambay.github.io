@@ -9,7 +9,6 @@
     <meta name="apple-mobile-web-app-title" content="हिंदी कैलेंडर">
     <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23667eea' width='192' height='192'/><text x='50%' y='50%' font-size='100' dominant-baseline='middle' text-anchor='middle' fill='white'>📅</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23667eea' width='180' height='180' rx='40'/><text x='50%' y='50%' font-size='90' dominant-baseline='middle' text-anchor='middle' fill='white'>📅</text></svg>">
-    <link rel="manifest" href="data:application/json,{%22name%22:%22हिंदी कैलेंडर 2026%22,%22short_name%22:%22हिंदी कैलेंडर%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27><rect fill=%27%23667eea%27 width=%27192%27 height=%27192%27/><text x=%2750%%27 y=%2750%%27 font-size=%27100%27 dominant-baseline=%27middle%27 text-anchor=%27middle%27 fill=%27white%27>📅</text></svg>%22,%22sizes%22:%22192x192%22,%22type%22:%22image/svg+xml%22,%22purpose%22:%22any%22}],%22start_url%22:%22/%22,%22scope%22:%22/%22,%22display%22:%22fullscreen%22,%22orientation%22:%22portrait-primary%22,%22background_color%22:%22%23667eea%22,%22theme_color%22:%22%23667eea%22,%22description%22:%22हिंदी कैलेंडर, त्योहार, राशिफल और पंचांग की सभी जानकारी%22}">
     <title>हिंदी कैलेंडर 2026 - त्योहार & राशिफल</title>
     <style>
         :root {
@@ -22,11 +21,27 @@
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        html, body { font-family: 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); min-height: 100vh; overflow-x: hidden; }
+        html, body {
+            font-family: 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-top: env(safe-area-inset-top, 24px);
+        }
         
-        .container { max-width: 420px; margin: 0 auto; padding: 15px; padding-bottom: 100px; }
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 30px 15px 100px;
+            padding-top: env(safe-area-inset-top, 30px);
+        }
         
-        .header { text-align: center; color: white; margin-bottom: 25px; margin-top: 15px; }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+            margin-top: 0;
+        }
         .header h1 { font-size: 26px; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); font-weight: 600; }
         .today-date { font-size: 14px; opacity: 0.95; letter-spacing: 0.5px; }
         
@@ -41,11 +56,13 @@
         .date-card { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.12); backdrop-filter: blur(20px); border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s; position: relative; min-height: 60px; }
         .date-card:active { transform: scale(0.95); background: rgba(255,255,255,0.18); }
         .date-card.other-month { opacity: 0.4; }
-        .date-card.today { background: linear-gradient(135deg, var(--accent), #ffd700); border: 2px solid #ffeb3b; box-shadow: 0 0 15px rgba(255,235,59,0.5); }
+        .date-card.today { background: linear-gradient(135deg, var(--accent), #ffd700); border: 2px solid #ffeb3b; box-shadow: 0 0 15px rgba(255,235,59,0.5); color: #333; }
         .date-card.festival { background: linear-gradient(135deg, #ff6b6b, #ff8e53); border: 2px solid #ff6b6b; box-shadow: 0 0 15px rgba(255,107,107,0.4); }
         
         .date-num { font-size: 18px; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        .date-card.today .date-num { color: #333; text-shadow: none; }
         .date-name { font-size: 10px; color: rgba(255,255,255,0.9); margin-top: 2px; }
+        .date-card.today .date-name { color: #333; }
         .festival-icon { position: absolute; top: 2px; right: 2px; font-size: 14px; }
         .panchang-dot { position: absolute; bottom: 3px; width: 6px; height: 6px; border-radius: 50%; background: rgba(255,235,59,0.8); }
         
@@ -92,10 +109,7 @@
         .btn-fav { background: var(--danger); color: white; }
         .btn:active { transform: scale(0.95); }
         
-        @keyframes confetti {
-            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
+        @keyframes confetti { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
         .confetti { position: fixed; width: 10px; height: 10px; background: var(--accent); animation: confetti 2.5s linear forwards; pointer-events: none; z-index: 999; border-radius: 50%; }
         
         .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: white; padding: 12px 20px; border-radius: 25px; font-size: 13px; z-index: 1001; }
@@ -103,16 +117,10 @@
         .theme-toggle { position: fixed; top: 15px; right: 15px; background: rgba(255,255,255,0.2); border: none; color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 20px; z-index: 101; transition: all 0.3s; }
         .theme-toggle:active { transform: scale(0.9); }
         
-        /* Dark Mode */
         body.dark-mode { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
         body.dark-mode .date-card { background: rgba(100,100,150,0.15); }
         body.dark-mode .modal-content { background: linear-gradient(135deg, rgba(26,26,46,0.95), rgba(22,33,62,0.95)); }
         
-        /* Swipe Animation */
-        .swipe-hint { position: absolute; left: 10px; top: 50%; color: rgba(255,255,255,0.5); font-size: 24px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
-        
-        /* Full Screen IOS */
         @supports(padding: max(0px)) {
             .container { padding-bottom: calc(100px + max(0px, env(safe-area-inset-bottom))); }
             .bottom-nav { padding-bottom: max(0px, env(safe-area-inset-bottom)); }
@@ -130,10 +138,9 @@
     <div class="container">
         <div class="header">
             <h1>📅 हिंदी कैलेंडर 2026</h1>
-            <div class="today-date" id="todayDate">07 दिसम्बर 2025, रविवार</div>
+            <div class="today-date" id="todayDate">11 दिसम्बर 2025, गुरुवार</div>
         </div>
         
-        <!-- Calendar Section -->
         <div id="calendarSection" class="section-card">
             <div class="month-selector">
                 <button class="month-nav" onclick="previousMonth()">◀</button>
@@ -141,7 +148,6 @@
                 <button class="month-nav" onclick="nextMonth()">▶</button>
             </div>
             
-            <!-- Week Days Header -->
             <div class="week-row">
                 <div class="day-header">रवि</div>
                 <div class="day-header">सोम</div>
@@ -152,10 +158,8 @@
                 <div class="day-header">शनि</div>
             </div>
             
-            <!-- Calendar Grid -->
             <div id="calendarGrid" class="week-row"></div>
             
-            <!-- Panchang Info -->
             <div class="panchang-info">
                 <div class="panchang-title">🌙 पंचांग विवरण</div>
                 <div class="panchang-details">
@@ -179,26 +183,22 @@
             </div>
         </div>
         
-        <!-- Festivals Section -->
         <div id="festivalsSection" class="section-card hidden">
             <div class="section-title">🎉 2026 के प्रमुख त्योहार</div>
             <div class="festival-grid" id="festivalList"></div>
         </div>
         
-        <!-- Horoscope Section -->
         <div id="horoscopeSection" class="section-card hidden">
             <div class="section-title">⭐ आज का राशिफल</div>
             <div class="horoscope-grid" id="horoscopeGrid"></div>
         </div>
         
-        <!-- Favorites Section -->
         <div id="favoritesSection" class="section-card hidden">
             <div class="section-title">❤️ मेरे प्रिय</div>
             <div id="favoritesList"></div>
         </div>
     </div>
     
-    <!-- Bottom Navigation -->
     <div class="bottom-nav">
         <div class="nav-item active" data-section="calendar">
             <span class="nav-icon">📅</span>
@@ -218,7 +218,6 @@
         </div>
     </div>
     
-    <!-- Modal -->
     <div id="modal" class="modal">
         <button class="modal-close" onclick="closeModal()">&times;</button>
         <div class="modal-content">
@@ -233,45 +232,56 @@
     </div>
 
     <script>
-        // Panchang Data - तिथि, नक्षत्र, योग, करण
         const panchangData = [
-            { tithi: 'शुक्ल पक्ष', nakshatra: 'कृतिका', yoga: 'विष्कुम्भ', karan: 'तैतिल', day: 'रविवार' },
-            { tithi: 'कृष्ण पक्ष', nakshatra: 'रोहिणी', yoga: 'प्रीति', karan: 'गज', day: 'सोमवार' },
-            { tithi: 'शुक्ल पक्ष', nakshatra: 'मृगशिरा', yoga: 'आयुष्मान', karan: 'वणिज', day: 'मंगलवार' },
-            { tithi: 'कृष्ण पक्ष', nakshatra: 'आर्द्रा', yoga: 'सौभाग्य', karan: 'विष्टि', day: 'बुधवार' },
-            { tithi: 'शुक्ल पक्ष', nakshatra: 'पुनर्वसु', yoga: 'शोभन', karan: 'शकुनि', day: 'गुरुवार' },
-            { tithi: 'कृष्ण पक्ष', nakshatra: 'पुष्य', yoga: 'अनुराधा', karan: 'चतुष्पद', day: 'शुक्रवार' },
-            { tithi: 'शुक्ल पक्ष', nakshatra: 'अश्लेषा', yoga: 'सिद्धि', karan: 'नाग', day: 'शनिवार' }
+            { tithi: 'शुक्ल पक्ष', nakshatra: 'कृतिका', yoga: 'विष्कुम्भ', karan: 'तैतिल' },
+            { tithi: 'कृष्ण पक्ष', nakshatra: 'रोहिणी', yoga: 'प्रीति', karan: 'गज' },
+            { tithi: 'शुक्ल पक्ष', nakshatra: 'मृगशिरा', yoga: 'आयुष्मान', karan: 'वणिज' },
+            { tithi: 'कृष्ण पक्ष', nakshatra: 'आर्द्रा', yoga: 'सौभाग्य', karan: 'विष्टि' },
+            { tithi: 'शुक्ल पक्ष', nakshatra: 'पुनर्वसु', yoga: 'शोभन', karan: 'शकुनि' },
+            { tithi: 'कृष्ण पक्ष', nakshatra: 'पुष्य', yoga: 'अनुराधा', karan: 'चतुष्पद' },
+            { tithi: 'शुक्ल पक्ष', nakshatra: 'अश्लेषा', yoga: 'सिद्धि', karan: 'नाग' }
         ];
         
-        // Festival Data - 2026 के प्रमुख त्योहार
         const festivals = [
-            { name: '🌾 मकर संक्रांति', date: '14 जनवरी 2026', desc: 'तिल-गुड़ का प्रसाद, पतंगबाजी, सूर्य भगवान की पूजा।' },
-            { name: '🌸 होली', date: '25 मार्च 2026', desc: 'रंगों का त्योहार, होलिका दहन, गुलाल खेलना।' },
-            { name: '⛵ नवरात्रि', date: '21 सितम्बर 2026', desc: '9 दिनों तक देवी दुर्गा की पूजा, दंडिया, गरबा।' },
-            { name: '🎆 दिवाली', date: '08 नवम्बर 2026', desc: 'दिपों का त्योहार, मिठाइयां, पटाखे, घर की सफाई।' },
-            { name: '❄️ होली पूर्ण चंद्र', date: '06 अप्रैल 2026', desc: 'चंद्र पूजन, भगवान कृष्ण की पूजा।' },
-            { name: '🏹 रामनवमी', date: '02 अप्रैल 2026', desc: 'भगवान राम का जन्मदिन, भजन-कीर्तन।' },
-            { name: '🐍 नाग पंचमी', date: '16 अगस्त 2026', desc: 'नाग देवता की पूजा, दूध पूरी।' },
-            { name: '👬 रक्षाबंधन', date: '15 अगस्त 2026', desc: 'भाई-बहन का पवित्र रिश्ता, राखी बांधना।' },
-            { name: '🙏 छठ पूजा', date: '20 नवम्बर 2026', desc: 'सूर्य देवता की पूजा, नहाय-खाय, लौकी की खीर।' },
-            { name: '✨ महाशिवरात्रि', date: '01 मार्च 2026', desc: 'शिव भगवान की रात, पूरी रात जागरण, जल अर्पण।' }
+            { name: '🌙 पौष पूर्णिमा', date: '03 जनवरी 2026', desc: 'पौष पूर्णिमा के दिन स्नान, दान और पूजा का विशेष महत्व। दान-पुण्य का शुभ दिन।' },
+            { name: '🌾 मकर संक्रांति', date: '14 जनवरी 2026', desc: 'सूर्य देव के मकर राशि में प्रवेश, तिल–गुड़ का दान और पतंगबाजी। नई फसल का पर्व।' },
+            { name: '📘 वसंत पंचमी', date: '23 जनवरी 2026', desc: 'विद्या की देवी सरस्वती की पूजा, पीले वस्त्र का महत्व। ज्ञान और कला का पर्व।' },
+            { name: '🕉 महा शिवरात्रि', date: '15 फरवरी 2026', desc: 'भगवान शिव की आराधना, व्रत और जागरण का दिन। शिव-पार्वती विवाह की तिथि।' },
+            { name: '🔥 होलिका दहन', date: '03 मार्च 2026', desc: 'असत्य पर सत्य की विजय, रात्रि में होलिका की अग्नि प्रज्वलित। बुराई का विनाश।' },
+            { name: '🌸 होली', date: '04 मार्च 2026', desc: 'रंगों और उमंगों का त्योहार, गुलाल खेलना और मिठाई बांटना। प्रेम और खुशी का पर्व।' },
+            { name: '🏹 राम नवमी', date: '27 मार्च 2026', desc: 'भगवान श्रीराम के जन्मोत्सव, कथा–कीर्तन और झांकी निकालना। धर्म की विजय का प्रतीक।' },
+            { name: '🐒 हनुमान जयंती', date: '02 अप्रैल 2026', desc: 'भगवान हनुमान की पूजा, सुंदरकांड का पाठ। भक्ति और शक्ति का प्रतीक।' },
+            { name: '🌾 वैसाखी / बैसाखी', date: '14 अप्रैल 2026', desc: 'नव वर्ष का स्वागत, पंजाब में गुरुद्वारों में लंगर। नई फसल के लिए आभार व्यक्ति।' },
+            { name: '📿 अक्षय तृतीया', date: '19 अप्रैल 2026', desc: 'सदा फलदायी तिथि, नया काम शुरू करने का शुभ दिन। शुभ मुहूर्त का दिन।' },
+            { name: '👶 जन्माष्टमी', date: '04 सितम्बर 2026', desc: 'भगवान कृष्ण के जन्म का उत्सव, झूलों की सजावट। दही-हांडी तोड़ने की परंपरा।' },
+            { name: '🐘 गणेश चतुर्थी', date: '14 सितम्बर 2026', desc: 'विघ्नहर्ता गणेश की स्थापना, 10 दिनों तक पूजा। बुद्धि और समृद्धि के देव।' },
+            { name: '🪔 नवरात्रि आरंभ', date: '11 अक्टूबर 2026', desc: 'देवी दुर्गा के नौ रूपों की पूजा, व्रत और कीर्तन। शक्ति की आराधना का पर्व।' },
+            { name: '💃 दुर्गा पूजा', date: '15–19 अक्टूबर 2026', desc: 'देवी दुर्गा के आगमन और स्वागत का पर्व, पश्चिम बंगाल में प्रसिद्ध। बुराई पर अच्छाई की जीत।' },
+            { name: '🏹 दशहरा / विजयदशमी', date: '20 अक्टूबर 2026', desc: 'श्रीराम की रावण पर विजय, रावण–दहन और शस्त्र–पूजा। बुराई का विनाश।' },
+            { name: '🌙 करवा चौथ', date: '29 अक्टूबर 2026', desc: 'सुहागिन स्त्रियों का व्रत, चंद्रदर्शन के बाद जल ग्रहण। पति-पत्नी के प्रेम का प्रतीक।' },
+            { name: '💰 धनतेरस', date: '06 नवम्बर 2026', desc: 'लक्ष्मी की पूजा, धातु या बर्तन खरीदना शुभ माना जाता है। नए सामान खरीदने का दिन।' },
+            { name: '🎆 दीपावली', date: '08 नवम्बर 2026', desc: 'प्रकाश का महापर्व, लक्ष्मी–गणेश पूजन, दीये जलाना। बुराई पर अच्छाई की विजय।' },
+            { name: '📈 गोवर्धन पूजा', date: '10 नवम्बर 2026', desc: 'कृष्ण द्वारा गोवर्धन पर्वत धारण की स्मृति में अन्नकूट भोग। प्रकृति की रक्षा।' },
+            { name: '👫 भाई दूज', date: '11 नवम्बर 2026', desc: 'भाई–बहन का स्नेह पर्व, बहनें भाइयों को तिलक लगाती हैं। भाई-बहन का प्रेम।' },
+            { name: '🌅 छठ पूजा', date: '15 नवम्बर 2026', desc: 'सूर्य देव की आराधना, डूबते और उगते सूर्य को अर्घ्य। महिलाओं का प्रमुख पर्व।' },
+            { name: '🙏 गुरु नानक जयंती', date: '01 दिसम्बर 2026', desc: 'सिख धर्म के संस्थापक गुरु नानक का जन्मदिन। ज्ञान और भक्ति का पर्व।' },
+            { name: '📜 गीता जयंती', date: '20 दिसम्बर 2026', desc: 'महाभारत में श्रीकृष्ण द्वारा अर्जुन को गीता का उपदेश। ज्ञान का प्रतीक।' },
+            { name: '🔔 क्रिसमस', date: '25 दिसम्बर 2026', desc: 'ईसा मसीह के जन्म का पर्व, प्रार्थना और उपहारों का दिन। प्रेम और खुशी का त्योहार।' }
         ];
         
-        // Horoscope Data - 12 राशियां
         const horoscope = [
             { name: 'मेष', emoji: '♈', prediction: 'आज धन लाभ के योग हैं। कार्यों में सफलता मिलेगी।' },
-            { name: 'वृषभ', emoji: '♉', prediction: 'परिवार में सुख-शांति रहेगी। स्वास्थ्य अच्छा रहेगा।' },
-            { name: 'मिथुन', emoji: '♊', prediction: 'नए अवसर मिलेंगे। व्यापार में बढ़ोतरी होगी।' },
-            { name: 'कर्क', emoji: '♋', prediction: 'बड़ों का सहयोग मिलेगा। मानसिक शांति रहेगी।' },
-            { name: 'सिंह', emoji: '♌', prediction: 'प्रतिष्ठा में वृद्धि होगी। सामाजिक कार्यों में भाग लें।' },
-            { name: 'कन्या', emoji: '♍', prediction: 'व्यावहारिकता आपका गुण है। विवेकपूर्ण निर्णय लें।' },
-            { name: 'तुला', emoji: '♎', prediction: 'संतुलन बनाएं। मन की शांति के लिए योग करें।' },
+            { name: 'वृषभ', emoji: '♉', prediction: 'परिवार में सुख-शांति। स्वास्थ्य अच्छा रहेगा।' },
+            { name: 'मिथुन', emoji: '♊', prediction: 'नए अवसर मिलेंगे। व्यापार में वृद्धि होगी।' },
+            { name: 'कर्क', emoji: '♋', prediction: 'बड़ों का सहयोग। मानसिक शांति रहेगी।' },
+            { name: 'सिंह', emoji: '♌', prediction: 'प्रतिष्ठा में वृद्धि। सामाजिक कार्यों में भाग लें।' },
+            { name: 'कन्या', emoji: '♍', prediction: 'व्यावहारिकता आपका गुण। विवेकपूर्ण निर्णय लें।' },
+            { name: 'तुला', emoji: '♎', prediction: 'संतुलन बनाएं। योग व ध्यान करें।' },
             { name: 'वृश्चिक', emoji: '♏', prediction: 'साहस और धैर्य दिखाएं। लक्ष्य की ओर बढ़ें।' },
             { name: 'धनु', emoji: '♐', prediction: 'यात्रा के योग हैं। नए कौशल सीखें।' },
-            { name: 'मकर', emoji: '♑', prediction: 'कठोर परिश्रम से सफलता मिलेगी। धैर्य रखें।' },
+            { name: 'मकर', emoji: '♑', prediction: 'कठोर परिश्रम सफल होगा। धैर्य रखें।' },
             { name: 'कुम्भ', emoji: '♒', prediction: 'दोस्तों का साथ मिलेगा। नई योजनाएं बनाएं।' },
-            { name: 'मीन', emoji: '♓', prediction: 'कल्पनाशीलता आपकी शक्ति है। रचनात्मक कार्य करें।' }
+            { name: 'मीन', emoji: '♓', prediction: 'कल्पनाशीलता शक्ति है। रचनात्मक कार्य करें।' }
         ];
         
         let currentDate = new Date();
@@ -284,7 +294,6 @@
         const hindiDays = ['रविवार', 'सोमवार', 'मंगलवार', 'बुधवार', 'गुरुवार', 'शुक्रवार', 'शनिवार'];
         const hindiDaysShort = ['रवि', 'सोम', 'मंगल', 'बुध', 'गुरु', 'शुक्र', 'शनि'];
         
-        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateTodayDate();
             renderCalendar();
@@ -295,8 +304,7 @@
         
         function updateTodayDate() {
             const now = new Date();
-            document.getElementById('todayDate').textContent = 
-                `${now.getDate()} ${hindiMonths[now.getMonth()]} ${now.getFullYear()}, ${hindiDays[now.getDay()]}`;
+            document.getElementById('todayDate').textContent = `${now.getDate()} ${hindiMonths[now.getMonth()]} ${now.getFullYear()}, ${hindiDays[now.getDay()]}`;
         }
         
         function renderCalendar() {
@@ -307,14 +315,12 @@
             const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
             const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
             
-            // Previous month dates
             for (let i = firstDay - 1; i >= 0; i--) {
                 const date = daysInPrevMonth - i;
                 const card = createDateCard(date, true, false, false);
                 grid.appendChild(card);
             }
             
-            // Current month dates
             const today = new Date();
             for (let date = 1; date <= daysInMonth; date++) {
                 const isToday = date === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
@@ -323,7 +329,6 @@
                 grid.appendChild(card);
             }
             
-            // Next month dates
             const totalCells = grid.children.length;
             const remainingCells = 42 - totalCells;
             for (let date = 1; date <= remainingCells; date++) {
@@ -341,7 +346,7 @@
             if (isToday) card.classList.add('today');
             if (isFestival) card.classList.add('festival');
             
-            const dayOfWeek = (new Date(currentYear, currentMonth, isOtherMonth ? date : date).getDay());
+            const dayOfWeek = new Date(currentYear, currentMonth, isOtherMonth ? date : date).getDay();
             const dayShort = hindiDaysShort[dayOfWeek];
             
             let html = `<div class="date-num">${date}</div><div class="date-name">${dayShort}</div>`;
@@ -354,19 +359,67 @@
         }
         
         function checkFestival(date, month, year) {
-            const festivalDates = {
-                '1-14': true, '3-25': true, '9-21': true, '11-8': true,
-                '4-2': true, '4-6': true, '8-15': true, '8-16': true,
-                '3-1': true, '11-20': true
-            };
-            return festivalDates[`${month}-${date}`];
+            const key = `${date.toString().padStart(2,'0')}-${month.toString().padStart(2,'0')}`;
+            return festivals.some(f => {
+                const parts = f.date.split(' ');
+                const dateStr = parts[0];
+                const mName = parts[1];
+                const monthIndex = hindiMonths.indexOf(mName) + 1;
+                
+                if (monthIndex !== month) return false;
+                
+                // Handle date ranges like "15–20" or "15-20"
+                if (dateStr.includes('–') || dateStr.includes('-')) {
+                    const separator = dateStr.includes('–') ? '–' : '-';
+                    const [startStr, endStr] = dateStr.split(separator);
+                    const start = parseInt(startStr);
+                    const end = parseInt(endStr);
+                    const currentDay = parseInt(date);
+                    return currentDay >= start && currentDay <= end;
+                } else {
+                    // Handle single dates
+                    return parseInt(dateStr) === parseInt(date);
+                }
+            });
         }
         
         function showDateDetail(date, isOtherMonth) {
-            const dayOfWeek = hindiDays[(new Date(currentYear, currentMonth, isOtherMonth ? date : date).getDay())];
+            const dayOfWeek = hindiDays[new Date(currentYear, currentMonth, isOtherMonth ? date : date).getDay()];
             const panchang = panchangData[new Date(currentYear, currentMonth, isOtherMonth ? date : date).getDay()];
             
-            currentContent = `${hindiMonths[currentMonth]} ${date}, ${dayOfWeek}\n\n📆 पंचांग विवरण:\n\nतिथि: ${panchang.tithi}\nनक्षत्र: ${panchang.nakshatra}\nयोग: ${panchang.yoga}\nकरण: ${panchang.karan}`;
+            // Find festival details for this date - Fixed for all date formats
+            let festivalInfo = '';
+            const monthName = hindiMonths[currentMonth];
+            
+            for (let fest of festivals) {
+                const parts = fest.date.split(' ');
+                const dateStr = parts[0];
+                const festMonth = parts[1];
+                
+                // Check if month matches
+                if (festMonth !== monthName) continue;
+                
+                // Handle date ranges like "15–20" or "15-20"
+                if (dateStr.includes('–') || dateStr.includes('-')) {
+                    const separator = dateStr.includes('–') ? '–' : '-';
+                    const [startStr, endStr] = dateStr.split(separator);
+                    const start = parseInt(startStr);
+                    const end = parseInt(endStr);
+                    const currentDay = parseInt(date);
+                    
+                    if (currentDay >= start && currentDay <= end) {
+                        festivalInfo = `\n\n🎉 त्योहार:\n${fest.name}\n${fest.date}\n${fest.desc}`;
+                        break;
+                    }
+                } 
+                // Handle single dates like "03" or "02"
+                else if (parseInt(dateStr) === parseInt(date)) {
+                    festivalInfo = `\n\n🎉 त्योहार:\n${fest.name}\n${fest.date}\n${fest.desc}`;
+                    break;
+                }
+            }
+            
+            currentContent = `${hindiMonths[currentMonth]} ${date}, ${dayOfWeek}\n\n📆 पंचांग विवरण:\n\nतिथि: ${panchang.tithi}\nनक्षत्र: ${panchang.nakshatra}\nयोग: ${panchang.yoga}\nकरण: ${panchang.karan}${festivalInfo}`;
             showModal(`${hindiMonths[currentMonth]} ${date}`, currentContent);
         }
         
@@ -375,29 +428,21 @@
         }
         
         function previousMonth() {
-            if (currentMonth === 0) {
-                currentMonth = 11;
-                currentYear--;
-            } else {
-                currentMonth--;
-            }
+            if (currentMonth === 0) { currentMonth = 11; currentYear--; } 
+            else { currentMonth--; }
             renderCalendar();
         }
         
         function nextMonth() {
-            if (currentMonth === 11) {
-                currentMonth = 0;
-                currentYear++;
-            } else {
-                currentMonth++;
-            }
+            if (currentMonth === 11) { currentMonth = 0; currentYear++; } 
+            else { currentMonth++; }
             renderCalendar();
         }
         
         function renderFestivals() {
             const list = document.getElementById('festivalList');
             list.innerHTML = festivals.map(fest => `
-                <div class="festival-card" onclick="showModal('${fest.name}', '${fest.date}\\n\\n${fest.desc}')">
+                <div class="festival-card" onclick="showModal('${fest.name.replace(/'/g, "\\'")}', '${fest.date}\\n\\n${fest.desc.replace(/'/g, "\\'")}')">
                     <div class="festival-name">${fest.name}</div>
                     <div class="festival-date">${fest.date}</div>
                     <div class="festival-desc">${fest.desc}</div>
@@ -408,7 +453,7 @@
         function renderHoroscope() {
             const grid = document.getElementById('horoscopeGrid');
             grid.innerHTML = horoscope.map(h => `
-                <div class="horoscope-card" onclick="showModal('${h.name} राशिफल', '${h.prediction}')">
+                <div class="horoscope-card" onclick="showModal('${h.name} राशिफल', '${h.prediction.replace(/'/g, "\\'")}')">
                     <div class="rashi-emoji">${h.emoji}</div>
                     <div class="rashi-name">${h.name}</div>
                     <div class="rashi-desc">${h.prediction.substring(0, 40)}...</div>
@@ -481,7 +526,7 @@
                 list.innerHTML = '<p style="color:rgba(255,255,255,0.7);text-align:center;padding:30px;">कोई प्रिय नहीं है</p>';
             } else {
                 list.innerHTML = favorites.map(fav => `
-                    <div class="festival-card" onclick="showModal('प्रिय', '${fav}')">
+                    <div class="festival-card" onclick="showModal('प्रिय', '${fav.replace(/'/g, "\\'")}')">
                         <div style="color:rgba(255,255,255,0.9);font-size:13px;line-height:1.4;">${fav.substring(0, 100)}</div>
                     </div>
                 `).join('');
@@ -508,47 +553,11 @@
             }
         }
         
-        // Close modal on outside click
         window.onclick = (e) => {
             const modal = document.getElementById('modal');
             if (e.target === modal) closeModal();
         };
         
-        // ========== PWA & ADVANCED FEATURES ==========
-        
-        // Service Worker Registration (Offline Mode)
-        if ('serviceWorker' in navigator) {
-            const swCode = `
-            self.addEventListener('install', (e) => {
-                e.waitUntil(caches.open('hindi-calendar-v1').then((cache) => {
-                    return cache.addAll(['/']);
-                }));
-                self.skipWaiting();
-            });
-            
-            self.addEventListener('fetch', (e) => {
-                e.respondWith(
-                    caches.match(e.request).then((response) => {
-                        return response || fetch(e.request);
-                    }).catch(() => caches.match('/'))
-                );
-            });
-            
-            self.addEventListener('activate', (e) => {
-                e.waitUntil(caches.keys().then((keys) => {
-                    return Promise.all(keys.map((key) => {
-                        if (key !== 'hindi-calendar-v1') return caches.delete(key);
-                    }));
-                }));
-            });
-            `;
-            
-            const blob = new Blob([swCode], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(blob);
-            navigator.serviceWorker.register(swUrl).catch(() => {});
-        }
-        
-        // Dark Mode Toggle
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
             localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
@@ -566,109 +575,22 @@
             }
         }
         
-        // Load Dark Mode Preference
         if (localStorage.getItem('darkMode') === 'true') {
             document.body.classList.add('dark-mode');
             updateThemeToggleButton();
         }
         
-        // Swipe Navigation for Months
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        document.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
-        
-        document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
+        let touchStartX = 0, touchEndX = 0;
+        document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, false);
+        document.addEventListener('touchend', (e) => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, false);
         
         function handleSwipe() {
-            const swipeThreshold = 50;
             const diff = touchStartX - touchEndX;
-            
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    nextMonth();  // Swipe left = next month
-                } else {
-                    previousMonth();  // Swipe right = previous month
-                }
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) nextMonth();
+                else previousMonth();
             }
         }
-        
-        // Festival Notifications
-        function checkUpcomingFestivals() {
-            const today = new Date();
-            const festivalDates = [
-                { date: '14-1', name: 'मकर संक्रांति' },
-                { date: '25-3', name: 'होली' },
-                { date: '2-4', name: 'रामनवमी' },
-                { date: '21-9', name: 'नवरात्रि' },
-                { date: '8-11', name: 'दिवाली' }
-            ];
-            
-            festivalDates.forEach(fest => {
-                const [day, month] = fest.date.split('-');
-                const festivalDate = new Date(today.getFullYear(), parseInt(month) - 1, parseInt(day));
-                const daysUntil = Math.ceil((festivalDate - today) / (1000 * 60 * 60 * 24));
-                
-                if (daysUntil === 1 && 'Notification' in window && Notification.permission === 'granted') {
-                    new Notification('🎉 ' + fest.name + ' कल है!', {
-                        icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50" y="50" font-size="80" dominant-baseline="middle" text-anchor="middle">🎉</text></svg>',
-                        tag: 'festival-' + fest.name,
-                        requireInteraction: false
-                    });
-                }
-            });
-        }
-        
-        // Request Notification Permission
-        if ('Notification' in window && Notification.permission === 'default') {
-            Notification.requestPermission();
-        }
-        
-        // Check Festivals Every Hour
-        setInterval(checkUpcomingFestivals, 3600000);
-        checkUpcomingFestivals();
-        
-        // Enhanced Tap Feedback
-        document.addEventListener('touchstart', function(e) {
-            if (e.target.classList.contains('date-card') || 
-                e.target.classList.contains('festival-card') || 
-                e.target.classList.contains('horoscope-card')) {
-                e.target.style.opacity = '0.7';
-            }
-        }, false);
-        
-        document.addEventListener('touchend', function(e) {
-            if (e.target.classList.contains('date-card') || 
-                e.target.classList.contains('festival-card') || 
-                e.target.classList.contains('horoscope-card')) {
-                e.target.style.opacity = '1';
-            }
-        }, false);
-        
-        // Request Full Screen on Installation (iOS)
-        document.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-        });
-        
-        // Haptic Feedback (Vibration) on Actions
-        function triggerVibration(pattern = 20) {
-            if ('vibrate' in navigator) {
-                navigator.vibrate(pattern);
-            }
-        }
-        
-        // Add Vibration to Button Clicks
-        document.querySelectorAll('.btn, .date-card, .nav-item').forEach(el => {
-            el.addEventListener('click', () => triggerVibration(15));
-        });
-        
-        // Status Bar Color (Android)
-        document.documentElement.style.colorScheme = 'light dark';
     </script>
 </body>
 </html>
