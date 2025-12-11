@@ -31,9 +31,11 @@
         
         .container {
             max-width: 420px;
+            width: 100%;
             margin: 0 auto;
             padding: 30px 15px 100px;
             padding-top: env(safe-area-inset-top, 30px);
+            overflow-x: hidden;
         }
         
         .header {
@@ -50,18 +52,18 @@
         .month-nav:active { transform: scale(0.95); }
         .current-month { color: white; font-size: 18px; font-weight: 600; flex: 1; text-align: center; }
         
-        .week-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 15px; width: 100%; }
+        .week-row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; margin-bottom: 15px; width: 100%; padding: 0; }
         .day-header { text-align: center; color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 600; padding: 10px 0; }
         
-        .date-card { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.12); backdrop-filter: blur(20px); border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s; position: relative; min-height: 60px; box-sizing: border-box; }
+        .date-card { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.12); backdrop-filter: blur(20px); border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s; position: relative; min-height: 50px; box-sizing: border-box; padding: 0; overflow: hidden; }
         .date-card:active { transform: scale(0.95); background: rgba(255,255,255,0.18); }
         .date-card.other-month { opacity: 0.4; }
         .date-card.today { background: linear-gradient(135deg, var(--accent), #ffd700); border: 2px solid #ffeb3b; box-shadow: 0 0 15px rgba(255,235,59,0.5); color: #333; }
         .date-card.festival { background: linear-gradient(135deg, #ff6b6b, #ff8e53); border: 2px solid #ff6b6b; box-shadow: 0 0 15px rgba(255,107,107,0.4); }
         
-        .date-num { font-size: 18px; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        .date-num { font-size: 16px; font-weight: 700; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.2); }
         .date-card.today .date-num { color: #333; text-shadow: none; }
-        .date-name { font-size: 10px; color: rgba(255,255,255,0.9); margin-top: 2px; }
+        .date-name { font-size: 9px; color: rgba(255,255,255,0.9); margin-top: 1px; }
         .date-card.today .date-name { color: #333; }
         .festival-icon { position: absolute; top: 2px; right: 2px; font-size: 14px; }
         .panchang-dot { position: absolute; bottom: 3px; width: 6px; height: 6px; border-radius: 50%; background: rgba(255,235,59,0.8); }
@@ -73,7 +75,7 @@
         .panchang-label { font-size: 10px; opacity: 0.8; margin-bottom: 3px; }
         .panchang-value { font-weight: 600; color: var(--accent); }
         
-        .section-card { margin-bottom: 20px; padding: 18px; background: rgba(255,255,255,0.12); backdrop-filter: blur(20px); border-radius: 15px; border: 1px solid rgba(255,255,255,0.2); }
+        .section-card { margin-bottom: 20px; padding: 15px; background: rgba(255,255,255,0.12); backdrop-filter: blur(20px); border-radius: 15px; border: 1px solid rgba(255,255,255,0.2); }
         .section-card.hidden { display: none; }
         .section-title { color: white; font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
         
